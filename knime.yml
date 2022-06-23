@@ -1,0 +1,18 @@
+name: first_extension # Will be concatenated with the group_id to an ID
+author: Steffen
+# env_yml_path is necessary for bundling, but not needed during development. It must be a relative path, e.g. simply
+# specify my_conda_env.yml if the my_conda_env.yml file is located next to the knime.yml file. Otherwise, change it to
+# path/to/my_conda_env.yml.
+env_yml_path: my_conda_env.yml
+# extension_module specifies the name of the Python module (.py file) containing the nodes of your extension. The name
+# must follow the syntax of Python's import statement. E.g. simply use my_extension if the my_extension.py file is
+# located next to the knime.yml file. Otherwise, change it to path.to.my_module.
+extension_module: my_extension
+description: My First Extension # Human readable bundle name / description
+long_description: This extension is my first Python extension.
+group_id: org.tutorial
+version: 0.1.0 # Version of this Python node extension
+vendor: KNIME AG, Zurich, Switzerland
+# license_file must be a relative path. E.g. simply specify LICENSE.TXT if the LICENSE.TXT file is located next to the
+# knime.yml file. Otherwise, change it to path/to/LICENSE.TXT.
+license_file: LICENSE.TXT
