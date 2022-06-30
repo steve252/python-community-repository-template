@@ -23,11 +23,10 @@ jobs:
         conda install -c knime -c conda-forge knime-extension-bundling
     - name: Build
       run: |
-        build_python_extension.py tutorial_extension update-site
+        build_python_extension.py tutorial_extension output
         
-    - name: Zip Release
-      uses: TheDoctor0/zip-release@0.6.2
+    - name: Easy Zip Files
+      uses: vimtor/action-zip@v1
       with:
-        filename: update-site.zip
-        path: upate-site
-        directory: .
+        files: "output/*update*/target/repository"
+        dest: output.zip 
