@@ -1,12 +1,14 @@
 name: Python Package using Conda
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   build-linux:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
+    name: Bundling Job
+    if: ${{ github.ref == 'refs/heads/main' }}
 
     steps:
     - uses: actions/checkout@v3
@@ -18,7 +20,7 @@ jobs:
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
         echo $CONDA/bin >> $GITHUB_PATH
-    - name: install bundling dependencies
+    - name: Install bundling dependencies
       run: |
         conda install -c knime -c conda-forge knime-extension-bundling
     - name: Build
@@ -30,3 +32,41 @@ jobs:
       with:
         files: "output/"
         dest: output.zip 
+
+        
+      # Taken form https://stackoverflow.com/questions/65574667/being-able-to-download-a-github-actions-artifact-by-copy-past-the-link-url-to-cu
+      # For the sake of simplicity, we'll name the tag and the release with
+      # the first 8 chars of the commit SHA:
+      # This gives us distinguishable releases
+    - name: Get short SHA
+      id: short_sha
+      run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+          
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: my_extension_v0.0.2_${{steps.short_sha.outputs.sha8}}
+        release_name: My bundled extension v0.0.2 ${{steps.short_sha.outputs.sha8}}
+        draft: false
+        prerelease: false
+        
+
+    - name: Upload Release Asset
+      id: upload_release_asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./output.zip
+        asset_name: output.zip
+        asset_content_type: application/zip
+
+    - uses: actions/download-artifact@v3
+    
+    - name: Display structure of downloaded files
+      run: ls -R
