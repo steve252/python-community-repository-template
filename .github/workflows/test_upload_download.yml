@@ -18,13 +18,23 @@ jobs:
        mkdir -p abc
        echo hello > abc/world.txt
 
+# This whon't work as there are no artifacts yet
+#     - name: Download all artifacts
+#       uses: actions/download-artifact@v3
+#       with:
+#         name: my-artifact
+
+    - name: Display structure of downloaded files
+      run: ls -R
+
+
+
+
     - name: Download all artifacts
       uses: actions/download-artifact@v3
       with:
         name: my-artifact
 
-    - name: Display structure of downloaded files
-      run: ls -R
 
     - name: Upload all artifacts
       uses: actions/upload-artifact@v3
