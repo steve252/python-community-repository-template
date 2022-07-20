@@ -27,15 +27,6 @@ jobs:
     - name: Display structure of downloaded files
       run: ls -R
 
-
-
-
-    - name: Download all artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: my-artifact
-
-
     - name: Upload all artifacts
       uses: actions/upload-artifact@v3
       with:
