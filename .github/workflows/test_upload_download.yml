@@ -1,6 +1,6 @@
 name: Artifact upload download testing
 
-on: [push, workflow_dispatch]
+on: [workflow_dispatch]
 
 
 jobs:
@@ -18,19 +18,13 @@ jobs:
        mkdir -p abc
        echo hello > abc/world.txt
 
-# This whon't work as there are no artifacts yet
-#     - name: Download all artifacts
-#       uses: actions/download-artifact@v3
-#       with:
-#         name: my-artifact
-
     - name: Display structure of downloaded files
       run: ls -R
 
     - name: Upload all artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: my-artifact
+        name: xyz/my-artifact
         path: abc/world.txt
         
 
