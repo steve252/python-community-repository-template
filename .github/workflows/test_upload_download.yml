@@ -16,15 +16,15 @@ jobs:
     - name: Create artifact
       run: |
        mkdir -p abc
-       echo hello > abc/world.txt
+       echo hello > aworld.txt
 
-    - name: Display structure of downloaded files
+    - name: Display structure of created files
       run: ls -R
 
     - name: Upload all artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: xyz/my-artifact
+        name: my-artifact
         path: abc/world.txt
         
 
