@@ -32,6 +32,13 @@ jobs:
         dest: output.zip 
     
 
+
+    - name: Upload all artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: lala
+        path: output
+
     - uses: actions/download-artifact@v3
     
     - name: Display structure of downloaded files
