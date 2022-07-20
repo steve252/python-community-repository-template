@@ -1,0 +1,22 @@
+name: Artifact upload download testing
+
+on: [push, workflow_dispatch]
+
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: mkdir -p abc
+
+    - run: echo hello > abc/world.txt
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: abc/world.txt
