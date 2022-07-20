@@ -25,7 +25,13 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: my-artifact
-#         path: world.txt # Let's see what happens, this should upload everything, whatever that means
+        path: ${{ github.workspace }}
+        
+    - name: Upload all artifacts2
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact2
+        path: /
         
 
     - name: Download all artifacts
