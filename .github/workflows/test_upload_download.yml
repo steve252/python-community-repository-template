@@ -2,6 +2,11 @@ name: Artifact upload download testing
 
 on: [workflow_dispatch]
 
+# on:
+#   push:
+#     tags:
+#       - 'v*'
+
 
 jobs:
   build-linux:
@@ -13,19 +18,48 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    # 'Building' the project / extension
     - name: Create artifact
       run: |
-       mkdir -p abc
-       echo hello > world.txt
+       mkdir -p dist
+       echo hello > dist/world.txt
+       echo ${{ github.workspace }} > dist/world.txt
 
     - name: Display structure of created files
       run: ls -R
-
-    - name: Upload all artifacts
-      uses: actions/upload-artifact@v3
+      
+      
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
-        name: my-artifact
-        path: ${{ github.workspace }}
+        tag_name: ${{ github.ref }}
+        release_name: Test releast ${{ github.ref }}
+        draft: false
+        prerelease: false
+        
+        
+    - name: Upload Release Asset
+      id: upload_release_asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./my-artifact.zip
+        asset_name: my-artifact.zip
+        asset_content_type: application/zip
+        
+        
+#     - name: Upload all artifacts
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: my-artifact
+#         path: ${{ github.workspace }}
+
+    
         
 
     - name: Display structure of downloaded files
