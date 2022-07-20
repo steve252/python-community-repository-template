@@ -16,7 +16,7 @@ jobs:
     - name: Create artifact
       run: |
        mkdir -p abc
-       echo hello > aworld.txt
+       echo hello > world.txt
 
     - name: Display structure of created files
       run: ls -R
