@@ -30,9 +30,7 @@ jobs:
       with:
         files: "output/"
         dest: output.zip 
-        
-    - uses: actions/checkout@v2
-
+    
     - uses: actions/download-artifact@v3
     
     - name: Display structure of downloaded files
