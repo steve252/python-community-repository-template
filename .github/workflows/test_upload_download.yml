@@ -27,17 +27,15 @@ jobs:
         name: my-artifact
         path: ${{ github.workspace }}
         
-    - name: Upload all artifacts2
-      uses: actions/upload-artifact@v3
-      with:
-        name: my-artifact2
-        path: /
-        
-
-    - name: Download all artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: my-artifact
 
     - name: Display structure of downloaded files
       run: ls -R
+
+
+#     - name: Download all artifacts
+#       uses: actions/download-artifact@v3
+#       with:
+#         name: my-artifact
+
+#     - name: Display structure of downloaded files
+#       run: ls -R
