@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
+    name: Bundling Job
 
     steps:
     - name: Checkout
