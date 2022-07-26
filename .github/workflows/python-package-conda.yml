@@ -25,7 +25,7 @@ jobs:
         conda install -c knime -c conda-forge knime-extension-bundling
     - name: Build
       run: |
-        build_python_extension.py tutorial_extension output
+        build_python_extension.py . output
         
     - name: Easy Zip Files
       uses: vimtor/action-zip@v1
